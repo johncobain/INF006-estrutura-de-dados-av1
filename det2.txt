@@ -1,0 +1,5 @@
+str:maria jose int:-1 4 8 float:3.15 12.7 p:(-0.5,-0.5) (-1,-1)
+
+chatGPT: como identifico o que é um inteiro, string ou float a partir de uma linha de arquivo usando c
+
+começa com (? ponto: tem .? float: começa com -? int: isDigit: int: string
