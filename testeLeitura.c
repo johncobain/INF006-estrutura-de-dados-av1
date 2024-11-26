@@ -11,7 +11,7 @@ typedef struct points{
 
 int main() {
     FILE *fp_in = fopen("L0Q1.in", "r");
-    FILE *fp_out = fopen("L0Q1.out", "w");
+    FILE *fp_out = fopen("L0Q1teste.out", "w");
     char line[1000];
     if (fp_in == NULL || fp_out == NULL){
         printf("Arquivos não podem ser abertos.");
@@ -20,23 +20,35 @@ int main() {
 
     char space[] = " ";
     char comma[] = ",";
-    char *slice;
+    char pointOpen[] = "(";
+    char pointClose[] = ")";
+    // char *slice;
 
-    while (fgets(line, 255, fp_in) != NULL){
-        //strtok: (1)não é thread-safe e (2) modifica a string
-        slice = strtok(line, space);
-        char text[20];
-        while (slice != NULL){
-            if(strcmp(slice, "points") == 0){
-                slice = strtok(NULL, space);
-            }
-            strcpy(text, slice);
-            slice = strtok(NULL, space);
-            fputs(text, fp_out);
+    while (fgets(line, sizeof(line), fp_in) != NULL) {
+        char *slice = strtok(line, " "); // Quebra inicial por espaços
+
+        // Ignorar a palavra "points"
+        if (strcmp(slice, "points") == 0) {
+            slice = strtok(NULL, " "); // Avançar para o próximo token
         }
+
+        // Processar todos os pontos na linha
+        while (slice != NULL) {
+            // Verifica se o token começa com '('
+            if (slice[0] == '(') {
+                // Usar sscanf para extrair x e y diretamente
+                int x, y;
+                if (sscanf(slice, "(%d,%d)", &x, &y) == 2) {
+                    fprintf(fp_out, "[%d|%d] ", x, y); // Escreve no arquivo de saída
+                }
+            }
+            slice = strtok(NULL, " "); // Avança para o próximo token
+        }
+        fprintf(fp_out, "\n");
     }
 
     fclose(fp_in);
     fclose(fp_out);
     return EXIT_SUCCESS;
 }
+    
