@@ -1,3 +1,5 @@
+//Dupla: Gabriel Nascimento Miranda Dos Santos (20241160019), Andrey Gomes Da Silva Nascimento (20241160024);
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
