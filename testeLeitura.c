@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 typedef struct points{
     int ordem_entrada;
@@ -19,17 +20,18 @@ int main() {
     }
 
     char space[] = " ";
-    char comma[] = ",";
-    char pointOpen[] = "(";
-    char pointClose[] = ")";
     // char *slice;
 
+    int linha = 0;
     while (fgets(line, sizeof(line), fp_in) != NULL) {
-        char *slice = strtok(line, " "); // Quebra inicial por espaços
+        points p[200];
+        int count = 0;
+
+        char *slice = strtok(line, space); // Quebra inicial por espaços
 
         // Ignorar a palavra "points"
         if (strcmp(slice, "points") == 0) {
-            slice = strtok(NULL, " "); // Avançar para o próximo token
+            slice = strtok(NULL, space); // Avançar para o próximo token
         }
 
         // Processar todos os pontos na linha
@@ -37,16 +39,29 @@ int main() {
             // Verifica se o token começa com '('
             if (slice[0] == '(') {
                 // Usar sscanf para extrair x e y diretamente
-                int x, y;
-                if (sscanf(slice, "(%d,%d)", &x, &y) == 2) {
-                    fprintf(fp_out, "[%d|%d] ", x, y); // Escreve no arquivo de saída
+                float x, y;
+                if (sscanf(slice, "(%f,%f)", &x, &y) == 2) {
+                    p[count].x = x;
+                    p[count].y = y;
+                    p[count].ordem_entrada = count;
+                    // Calcular a distância Euclidiana até a origem
+                    p[count].distancia_origem = sqrt(x * x + y * y);
+                    count++;
                 }
             }
-            slice = strtok(NULL, " "); // Avança para o próximo token
+            slice = strtok(NULL, space); // Avança para o próximo token
         }
-        fprintf(fp_out, "\n");
+        // Escrever os pontos da linha no arquivo de saída
+        fprintf(fp_out, "Linha %d:\n", ++linha);
+        for (int i = 0; i < count; i++) {
+            fprintf(fp_out, "Ponto %d: (%.2f, %.2f), Distância: %.2f\n",
+                    p[i].ordem_entrada,
+                    p[i].x,
+                    p[i].y,
+                    p[i].distancia_origem
+                    );
+        }
     }
-
     fclose(fp_in);
     fclose(fp_out);
     return EXIT_SUCCESS;

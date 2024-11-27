@@ -1,2 +1,12 @@
-[-2|-1] [4|2] [4|0] [2|2] [8|6] 
-[2|-1] [5|2] [4|1] [2|-2] [4|6] 
+Linha 1:
+Ponto 0: (-2.00, -1.00), Distância: 2.24
+Ponto 1: (4.00, 2.00), Distância: 4.47
+Ponto 2: (4.00, 0.00), Distância: 4.00
+Ponto 3: (2.00, 2.00), Distância: 2.83
+Ponto 4: (8.00, 6.00), Distância: 10.00
+Linha 2:
+Ponto 0: (2.00, -1.00), Distância: 2.24
+Ponto 1: (5.00, 2.00), Distância: 5.39
+Ponto 2: (4.00, 1.00), Distância: 4.12
+Ponto 3: (2.00, -2.00), Distância: 2.83
+Ponto 4: (4.00, 6.00), Distância: 7.21
