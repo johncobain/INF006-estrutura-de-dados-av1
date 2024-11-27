@@ -10,9 +10,22 @@ typedef struct points{
     float y;
 } points;
 
+void bubble(points p[], int n){
+    for(int i = 0; i < n; i++){    
+        for(int j = 0; j < n-1-i; j++){
+            points aux;
+            if(p[j].distancia_origem > p[j+1].distancia_origem){
+                aux = p[j];
+                p[j] = p[j+1];
+                p[j+1] = aux;
+            }
+        }
+    }
+}
+
 int main() {
     FILE *fp_in = fopen("L0Q1.in", "r");
-    FILE *fp_out = fopen("L0Q1teste.out", "w");
+    FILE *fp_out = fopen("L0Q1.out", "w");
     char line[1000];
     if (fp_in == NULL || fp_out == NULL){
         printf("Arquivos não podem ser abertos.");
@@ -21,7 +34,6 @@ int main() {
 
     char space[] = " ";
 
-    int linha = 0;
     while (fgets(line, sizeof(line), fp_in) != NULL) {
         points p[200];
         int count = 0;
@@ -52,26 +64,26 @@ int main() {
             }
             slice = strtok(NULL, space); // Avança para o próximo token
         }
-        // Escrever os pontos da linha no arquivo de saída
-        fprintf(fp_out, "Linha %d:\n", ++linha);
-        for (int i = 0; i < count; i++) {
-            fprintf(fp_out, "Ponto %d: (%.2f, %.2f), Distância: %.2f\n",
-                    p[i].ordem_entrada,
-                    p[i].x,
-                    p[i].y,
-                    p[i].distancia_origem
-                    );
-        }
+        
         for(int i = 0; i < count-1; i++){
             distanciaTotal += sqrt(pow(p[i+1].x-p[i].x,2)+pow(p[i+1].y-p[i].y,2));
         }
-        fprintf(fp_out, "Distância total: %.2f\n", distanciaTotal);
-
         distanciaShortcurt = sqrt(pow(p[count-1].x-p[0].x,2)+pow(p[count-1].y-p[0].y,2));
-        fprintf(fp_out, "Distância shortcurt: %.2f\n", distanciaShortcurt);
+        //ordena
+        bubble(p, count);
+        // Escrever os pontos da linha no arquivo de saída
+        fprintf(fp_out, "points");
+        for(int i = 0; i<count; i++){
+            fprintf(fp_out, " (%.0f,%.0f)", p[i].x, p[i].y);
+
+        }
+        fprintf(fp_out, " distance %.2f", distanciaTotal);
+        fprintf(fp_out, " shortcurt %.2f\n", distanciaShortcurt);
+
     }// fim da linha
     fclose(fp_in);
     fclose(fp_out);
     return EXIT_SUCCESS;
 }
     
+
