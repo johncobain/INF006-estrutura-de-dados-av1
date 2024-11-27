@@ -20,12 +20,13 @@ int main() {
     }
 
     char space[] = " ";
-    // char *slice;
 
     int linha = 0;
     while (fgets(line, sizeof(line), fp_in) != NULL) {
         points p[200];
         int count = 0;
+        float distanciaTotal = 0;
+        float distanciaShortcurt = 0;
 
         char *slice = strtok(line, space); // Quebra inicial por espaços
 
@@ -61,7 +62,14 @@ int main() {
                     p[i].distancia_origem
                     );
         }
-    }
+        for(int i = 0; i < count-1; i++){
+            distanciaTotal += sqrt(pow(p[i+1].x-p[i].x,2)+pow(p[i+1].y-p[i].y,2));
+        }
+        fprintf(fp_out, "Distância total: %.2f\n", distanciaTotal);
+
+        distanciaShortcurt = sqrt(pow(p[count-1].x-p[0].x,2)+pow(p[count-1].y-p[0].y,2));
+        fprintf(fp_out, "Distância shortcurt: %.2f\n", distanciaShortcurt);
+    }// fim da linha
     fclose(fp_in);
     fclose(fp_out);
     return EXIT_SUCCESS;
