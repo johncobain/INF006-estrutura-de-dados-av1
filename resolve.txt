@@ -1,0 +1,3 @@
+quebra de linha no final do arquivo (talves usar um text e put?)
+quebra de linha aleatória na linha 3 do L0Q2.out
+espaços da linha 7 do L0Q2.out
