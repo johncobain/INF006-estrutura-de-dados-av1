@@ -8,8 +8,8 @@
 typedef struct points{
     int ordem_entrada;
     float distancia_origem;
-    float x;
-    float y;
+    int x;
+    int y;
 } points;
 
 void bubble(points p[], int n){
@@ -35,9 +35,11 @@ int main() {
     }
 
     char space[] = " ";
+    int lineCount = 0;
 
     while (fgets(line, sizeof(line), fp_in) != NULL) {
         points p[200];
+        char text[1000];
         int count = 0;
         float distanciaTotal = 0;
         float distanciaShortcurt = 0;
@@ -54,13 +56,13 @@ int main() {
             // Verifica se o token começa com '('
             if (slice[0] == '(') {
                 // Usar sscanf para extrair x e y diretamente
-                float x, y;
-                if (sscanf(slice, "(%f,%f)", &x, &y) == 2) {
+                int x, y;
+                if (sscanf(slice, "(%d,%d)", &x, &y) == 2) {
                     p[count].x = x;
                     p[count].y = y;
                     p[count].ordem_entrada = count;
                     // Calcular a distância Euclidiana até a origem
-                    p[count].distancia_origem = sqrt(x * x + y * y);
+                    p[count].distancia_origem = sqrt((float)(x * x + y * y));
                     count++;
                 }
             }
@@ -68,20 +70,22 @@ int main() {
         }
         
         for(int i = 0; i < count-1; i++){
-            distanciaTotal += sqrt(pow(p[i+1].x-p[i].x,2)+pow(p[i+1].y-p[i].y,2));
+            distanciaTotal += sqrt((float)(pow(p[i+1].x-p[i].x,2)+pow(p[i+1].y-p[i].y,2)));
         }
-        distanciaShortcurt = sqrt(pow(p[count-1].x-p[0].x,2)+pow(p[count-1].y-p[0].y,2));
+        distanciaShortcurt = sqrt((float)(pow(p[count-1].x-p[0].x,2)+pow(p[count-1].y-p[0].y,2)));
         //ordena
         bubble(p, count);
         // Escrever os pontos da linha no arquivo de saída
-        fprintf(fp_out, "points");
+        if(lineCount==0)sprintf(text, "points");
+        else sprintf(text, "\npoints");
+ 
         for(int i = 0; i<count; i++){
-            fprintf(fp_out, " (%.0f,%.0f)", p[i].x, p[i].y);
-
+            sprintf(text, "%s (%d,%d)", text, p[i].x, p[i].y);
         }
-        fprintf(fp_out, " distance %.2f", distanciaTotal);
-        fprintf(fp_out, " shortcut %.2f\n", distanciaShortcurt);
-
+        sprintf(text, "%s distance %.2f", text, distanciaTotal);
+        sprintf(text, "%s shortcut %.2f", text, distanciaShortcurt);
+        fputs(text, fp_out);
+        lineCount++;
     }// fim da linha
     fclose(fp_in);
     fclose(fp_out);
