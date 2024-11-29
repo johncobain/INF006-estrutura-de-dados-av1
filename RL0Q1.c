@@ -80,7 +80,7 @@ int main() {
 
         }
         fprintf(fp_out, " distance %.2f", distanciaTotal);
-        fprintf(fp_out, " shortcurt %.2f\n", distanciaShortcurt);
+        fprintf(fp_out, " shortcut %.2f\n", distanciaShortcurt);
 
     }// fim da linha
     fclose(fp_in);
