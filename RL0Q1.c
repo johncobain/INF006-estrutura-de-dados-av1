@@ -42,7 +42,7 @@ int main() {
         char text[1000];
         int count = 0;
         float distanciaTotal = 0;
-        float distanciaShortcurt = 0;
+        float distanciaShortcut = 0;
 
         char *slice = strtok(line, space); // Quebra inicial por espaços
 
@@ -72,7 +72,7 @@ int main() {
         for(int i = 0; i < count-1; i++){
             distanciaTotal += sqrt((float)(pow(p[i+1].x-p[i].x,2)+pow(p[i+1].y-p[i].y,2)));
         }
-        distanciaShortcurt = sqrt((float)(pow(p[count-1].x-p[0].x,2)+pow(p[count-1].y-p[0].y,2)));
+        distanciaShortcut = sqrt((float)(pow(p[count-1].x-p[0].x,2)+pow(p[count-1].y-p[0].y,2)));
         //ordena
         bubble(p, count);
         // Escrever os pontos da linha no arquivo de saída
@@ -83,7 +83,7 @@ int main() {
             sprintf(text, "%s (%d,%d)", text, p[i].x, p[i].y);
         }
         sprintf(text, "%s distance %.2f", text, distanciaTotal);
-        sprintf(text, "%s shortcut %.2f", text, distanciaShortcurt);
+        sprintf(text, "%s shortcut %.2f", text, distanciaShortcut);
         fputs(text, fp_out);
         lineCount++;
     }// fim da linha

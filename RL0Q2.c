@@ -78,12 +78,14 @@ int main() {
     }
 
     char space[] = " ";
+    int lineCount = 0;
 
     while (fgets(line, sizeof(line), fp_in) != NULL) {
         points p[200];
         nomes str[200];
         int inteiros[200];
         float reais[200];
+        char text[1000];
         
         int countP = 0;
         int countStr = 0;
@@ -113,6 +115,9 @@ int main() {
                     countP++;
                 }
             }else if(slice[0] >= 'a' && slice[0] <= 'z' || slice[0] >= 'A' && slice[0] <= 'Z'){
+                for(int i = 0; i < strlen(slice); i++){
+                    if(slice[i] == '\n') slice[i] = '\0';
+                }
                 strcpy(str[countStr].nome, slice);
                 countStr++;
             }else{
@@ -136,27 +141,33 @@ int main() {
         bubbleReal(reais, countReal);
         bubblePoints(p, countP);
         // Escrever os pontos da linha no arquivo de saída
-        fprintf(fp_out, "str:");
+        if(lineCount==0)sprintf(text, "str:" );
+        else sprintf(text, "\nstr:");
         for(int i = 0; i<countStr; i++){
-            fprintf(fp_out, "%s ", str[i].nome);
+            if(i==0)sprintf(text, "%s%s", text, str[i].nome);
+            else sprintf(text, "%s %s", text, str[i].nome);
         }
 
-        fprintf(fp_out, "int:");
+        sprintf(text, "%s %s", text, "int:");
         for(int i = 0; i<countInt; i++){
-            fprintf(fp_out, "%d ", inteiros[i]);
+            if(i==0)sprintf(text, "%s%d", text, inteiros[i]);
+            else sprintf(text, "%s %d", text, inteiros[i]);
         }
 
-        fprintf(fp_out, "float:");
+        sprintf(text, "%s %s", text, "float:");
         for(int i = 0; i<countReal; i++){
-            fprintf(fp_out, "%.2f ", reais[i]);
+            if(i==0)sprintf(text, "%s%.5g", text, reais[i]);
+            else sprintf(text, "%s %.5g", text, reais[i]);
         }
-        fprintf(fp_out, "p:");
-        for(int i = 0; i<countP; i++){
-            if(i<countP-1)fprintf(fp_out, "(%.1f,%.1f) ", p[i].x, p[i].y);
-            else fprintf(fp_out, "(%.1f,%.1f)", p[i].x, p[i].y);
-        }
-        fprintf(fp_out, "\n");
 
+        sprintf(text, "%s %s", text, "p:");
+        for(int i = 0; i<countP; i++){
+            if(i==0)sprintf(text, "%s(%.5g,%.5g)", text, p[i].x, p[i].y);
+            else sprintf(text, "%s (%.5g,%.5g)", text, p[i].x, p[i].y);
+        }
+
+        fputs(text, fp_out);
+        lineCount++;
     }// fim da linha
     fclose(fp_in);
     fclose(fp_out);
