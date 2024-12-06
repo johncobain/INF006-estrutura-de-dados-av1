@@ -1,2 +1,0 @@
-gcc RL0Q1.c -o RL0Q1 -lm
-os arquivos de teste
